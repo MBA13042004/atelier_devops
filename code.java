@@ -1,24 +1,54 @@
 import java.util.Scanner;
 
-public class SumCalculator {
-    public static void main(String[] args) {
-        // Créer un objet Scanner pour lire les entrées de l'utilisateur
-        Scanner scanner = new Scanner(System.in);
+class BankAccount {
+    private String accountHolder;
+    private double balance;
 
-        // Demander à l'utilisateur de saisir deux nombres
-        System.out.print("Entrez le premier nombre: ");
-        double num1 = scanner.nextDouble();
+    // Constructeur
+    public BankAccount(String accountHolder, double initialBalance) {
+        this.accountHolder = accountHolder;
+        this.balance = initialBalance;
+    }
 
-        System.out.print("Entrez le deuxième nombre: ");
-        double num2 = scanner.nextDouble();
+    // Méthode pour déposer de l'argent
+    public void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            System.out.println("Déposé : " + amount + "€");
+        } else {
+            System.out.println("Montant invalide pour le dépôt.");
+        }
+    }
 
-        // Calculer la somme des deux nombres
-        double sum = num1 + num2;
+    // Méthode pour retirer de l'argent
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            System.out.println("Retiré : " + amount + "€");
+        } else if (amount > balance) {
+            System.out.println("Fonds insuffisants pour le retrait.");
+        } else {
+            System.out.println("Montant invalide pour le retrait.");
+        }
+    }
 
-        // Afficher le résultat
-        System.out.println("La somme des deux nombres est: " + sum);
+    // Méthode pour afficher le solde
+    public void displayBalance() {
+        System.out.println("Solde actuel : " + balance + "€");
+    }
 
-        // Fermer le scanner
-        scanner.close();
+    // Méthode pour obtenir le titulaire du compte
+    public String getAccountHolder() {
+        return accountHolder;
     }
 }
+
+public class BankSimulator {
+    public static void main(String[] args) {
+        // Scanner pour lire les entrées de l'utilisateur
+        Scanner scanner = new Scanner(System.in);
+
+        // Créer un compte bancaire avec un solde initial
+        System.out.print("Entrez le nom du titulaire du compte : ");
+        String name = scanner.nextLine();
+        BankAccount account = new BankAccount(name, 1000); // Solde
