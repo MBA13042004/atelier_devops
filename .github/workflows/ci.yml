@@ -3,16 +3,34 @@ name: Mon CI
 on:
   push:
     branches: [ "main", "feature-readme" ]
+  pull_request:          # Ajout : déclenche aussi la CI sur chaque PR
+    branches: [ "main" ]
 
 jobs:
-  build:                   
+  build:
     runs-on: ubuntu-latest
 
     steps:
+      # Étape 1 : Récupérer le code
       - name: Récupération du code
         uses: actions/checkout@v4
 
+      # Étape 2 : Installer Node.js (version utilisée par ton projet)
+      - name: Configuration de Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'     # change si tu utilises une autre version
+
+      # Étape 3 : Installer les dépendances
+      - name: Installation des dépendances
+        run: npm ci              # ou `npm install` si tu n’as pas de package-lock.json
+
+      # Étape 4 : Lancer les tests unitaires
+      - name: Exécution des tests
+        run: npm test            # doit être défini dans ton package.json
+
+      # Étape 5 : Message de succès
       - name: Vérification du contenu
         run: |
-          echo "Félicitations, Pipeline CI déclenché avec réussite"
+          echo "✅ Félicitations, les tests sont passés avec succès !"
           ls -l
